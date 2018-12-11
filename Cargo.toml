@@ -1,0 +1,9 @@
+[package]
+name = "count_to_a_million"
+version = "0.1.0"
+authors = ["o0Ignition0o <jeremy.lempereur@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+nitox = "0.1.9"
+futures = "0.1.25"
