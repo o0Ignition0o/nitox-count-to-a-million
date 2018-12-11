@@ -5,5 +5,6 @@ authors = ["o0Ignition0o <jeremy.lempereur@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-nitox = "0.1.9"
+nitox = {git= "http://github.com/yellowinnovation/nitox", branch="develop"}
 futures = "0.1.25"
+tokio = "0.1.13"
