@@ -25,9 +25,25 @@ fn unsubscribe_from_race(client: NatsClient) -> impl Future<Item = NatsClient, E
         .and_then(|_| ok(client))
 }
 
+fn handle_message_stream(
+    message_stream: impl Stream<Item = Message, Error = NatsError> + Send + 'static,
+) -> impl Future<Item = (), Error = NatsError> {
+    tokio::spawn(
+        message_stream
+            .for_each(move |msg| {
+                println!("Received a message ! {:?}", msg);
+                ok(())
+            })
+            .into_future()
+            .map_err(|_| ()),
+    );
+    ok(())
+}
+
 fn subscribe_to_race(client: NatsClient) -> impl Future<Item = NatsClient, Error = NatsError> {
     client
         .subscribe(SubCommand::builder().subject("Race").build().unwrap())
+        .and_then(move |message_stream| handle_message_stream(message_stream))
         .and_then(|_| ok(client))
 }
 
